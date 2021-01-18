@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const LessPluginAutoPrefix = require("less-plugin-autoprefix");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const path = require("path");
@@ -105,17 +106,18 @@ const config = {
       new MiniCssExtractPlugin({
         filename: "[name].[chunkhash].css"
       }),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: "asset-manifest.json",
       publicPath: ""
     }),
-    new CopyWebpackPlugin([
+    new CopyWebpackPlugin({
+      patterns:[
       { from: "client/app/assets/robots.txt" },
       { from: "client/app/unsupported.html" },
       { from: "client/app/unsupportedRedirect.js" },
-      { from: "client/app/assets/css/*.css", to: "styles/", flatten: true },
+      { from: "client/app/assets/css/*.css", to: "styles/[name].[ext]" },
       { from: "client/app/assets/fonts", to: "fonts/" }
-    ]),
+    ]}),
     isHotReloadingEnabled && new ReactRefreshWebpackPlugin({ overlay: false })
   ].filter(Boolean),
   optimization: {
