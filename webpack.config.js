@@ -182,10 +182,10 @@ const config = {
           {
             loader: "less-loader",
             options: {
-              plugins: [
-                new LessPluginAutoPrefix({ browsers: ["last 3 versions"] })
-              ],
-              javascriptEnabled: true
+              lessOptions: {
+                plugins: [new LessPluginAutoPrefix({ browsers: ["last 3 versions"] })],
+                javascriptEnabled: true,
+              }
             }
           }
         ]
